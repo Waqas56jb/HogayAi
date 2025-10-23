@@ -1600,6 +1600,7 @@
             flex-direction: column;
             overflow: hidden;
             border: 1px solid rgba(0, 0, 0, 0.08);
+            margin-right: 10px;
         }
 
         .chatbot-container.active {
@@ -1937,8 +1938,8 @@
         /* Tablets */
         @media (max-width: 768px) {
             .chatbot-widget {
-                bottom: 16px;
-                right: 16px;
+                bottom: 20px;
+                right: 20px;
             }
 
             .chatbot-toggle {
@@ -1952,11 +1953,11 @@
             }
 
             .chatbot-container {
-                width: calc(100vw - 32px);
-                height: calc(100vh - 120px);
+                width: calc(100vw - 40px);
+                height: calc(100vh - 140px);
                 max-height: 500px;
-                right: -16px;
-                bottom: 80px;
+                right: -20px;
+                bottom: 90px;
             }
 
             .chatbot-messages {
@@ -1971,8 +1972,8 @@
         /* Large Phones (iPhone 12 Pro Max, Samsung Galaxy S21 Ultra) */
         @media (max-width: 428px) {
             .chatbot-widget {
-                bottom: 14px;
-                right: 14px;
+                bottom: 20px;
+                right: 20px;
             }
 
             .chatbot-toggle {
@@ -1986,11 +1987,11 @@
             }
 
             .chatbot-container {
-                width: calc(100vw - 28px);
-                right: -14px;
-                height: calc(100vh - 100px);
+                width: calc(100vw - 40px);
+                right: -20px;
+                height: calc(100vh - 120px);
                 max-height: 480px;
-                bottom: 70px;
+                bottom: 80px;
             }
 
             .chatbot-header {
@@ -2060,8 +2061,8 @@
         /* Standard Phones (iPhone 12, iPhone 13, Samsung Galaxy S21) */
         @media (max-width: 390px) {
             .chatbot-widget {
-                bottom: 12px;
-                right: 12px;
+                bottom: 18px;
+                right: 18px;
             }
 
             .chatbot-toggle {
@@ -2075,11 +2076,11 @@
             }
 
             .chatbot-container {
-                width: calc(100vw - 24px);
-                right: -12px;
-                height: calc(100vh - 90px);
+                width: calc(100vw - 36px);
+                right: -18px;
+                height: calc(100vh - 110px);
                 max-height: 450px;
-                bottom: 65px;
+                bottom: 75px;
             }
 
             .chatbot-header {
@@ -2149,8 +2150,8 @@
         /* Small Phones (iPhone SE, iPhone 12 mini) */
         @media (max-width: 375px) {
             .chatbot-widget {
-                bottom: 10px;
-                right: 10px;
+                bottom: 16px;
+                right: 16px;
             }
 
             .chatbot-toggle {
@@ -2164,11 +2165,11 @@
             }
 
             .chatbot-container {
-                width: calc(100vw - 20px);
-                right: -10px;
-                height: calc(100vh - 80px);
+                width: calc(100vw - 32px);
+                right: -16px;
+                height: calc(100vh - 100px);
                 max-height: 420px;
-                bottom: 60px;
+                bottom: 70px;
             }
 
             .chatbot-header {
@@ -2237,11 +2238,17 @@
 
         /* Very Small Phones */
         @media (max-width: 360px) {
+            .chatbot-widget {
+                bottom: 14px;
+                right: 14px;
+            }
+
             .chatbot-container {
-                width: calc(100vw - 16px);
-                right: -8px;
-                height: calc(100vh - 70px);
+                width: calc(100vw - 28px);
+                right: -14px;
+                height: calc(100vh - 90px);
                 max-height: 400px;
+                bottom: 65px;
             }
 
             .chatbot-header {
@@ -2301,11 +2308,17 @@
 
         /* Ultra Small Phones */
         @media (max-width: 320px) {
+            .chatbot-widget {
+                bottom: 12px;
+                right: 12px;
+            }
+
             .chatbot-container {
-                width: calc(100vw - 12px);
-                right: -6px;
-                height: calc(100vh - 60px);
+                width: calc(100vw - 24px);
+                right: -12px;
+                height: calc(100vh - 80px);
                 max-height: 380px;
+                bottom: 60px;
             }
 
             .chatbot-header {
