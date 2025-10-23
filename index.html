@@ -1516,7 +1516,7 @@
             <div class="chatbot-input-container">
                 <div class="input-wrapper">
                     <input type="text" id="chatbot-input" placeholder="Type your message..." onkeypress="handleChatbotKeypress(event)">
-                    <button class="chatbot-send" onclick="sendMessage()" title="Send message">
+                    <button class="chatbot-send" onclick="sendMessage(); return false;" title="Send message" type="button">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="currentColor"/>
                         </svg>
@@ -1591,8 +1591,8 @@
             position: absolute;
             bottom: 0;
             right: 0;
-            width: 360px;
-            height: 500px;
+            width: 320px;
+            height: 400px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
@@ -1603,6 +1603,7 @@
             margin-right: 10px;
             transform: translateY(100%);
             transition: transform 0.3s ease;
+            z-index: 9999;
         }
 
         .chatbot-container.active {
@@ -1900,6 +1901,13 @@
             justify-content: center;
             transition: all 0.2s ease;
             box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         .chatbot-send:hover {
@@ -1921,8 +1929,8 @@
         /* Large Tablets and Small Desktops */
         @media (max-width: 1024px) {
             .chatbot-container {
-                width: 340px;
-                height: 480px;
+                width: 300px;
+                height: 380px;
             }
         }
 
@@ -2475,6 +2483,11 @@
             if (message && !isTyping) {
                 addMessage(message, 'user');
                 input.value = '';
+                
+                // Keep keyboard open on mobile
+                setTimeout(() => {
+                    input.focus();
+                }, 100);
                 
                 // Show typing indicator
                 showTypingIndicator();
