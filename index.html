@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HogayAI - Your work? Ho Gaya. | AI Automation Services</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary: #007BFF;
+            --primary-dark: #0069d9;
+            --secondary-white: #FFFFFF;
+            --secondary-black: #000000;
+            --accent: #00FF9D;
+            --accent-dark: #00e087;
+            --gradient-blue: linear-gradient(135deg, #007BFF, #00C6FF, #0072FF);
+            --gradient-dark: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            --text-dark: #333333;
+            --text-light: #666666;
+            --background-light: #F8F9FA;
+            --border-light: #E0E0E0;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background-color: var(--background-light);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-logo {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 5px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .logo span {
+            color: var(--accent);
+            margin-left: 5px;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .contact-number {
+            display: flex;
+            align-items: center;
+            background: var(--gradient-blue);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .contact-number:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        .contact-number i {
+            margin-right: 8px;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 120px;
+            background: var(--gradient-blue);
+            color: var(--secondary-white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.7s;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--text-dark);
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 255, 157, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.9s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.5);
+            background-color: var(--accent-dark);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            z-index: 1;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--secondary-white);
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-text {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* Services Section */
+        .services {
+            background-color: var(--background-light);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: var(--secondary-white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-blue);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            display: inline-block;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .service-features {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .service-features li {
+            padding: 8px 0;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background-color: var(--secondary-white);
+        }
+
+        .pricing-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background-color: var(--secondary-white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 2px solid var(--border-light);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-blue);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .pricing-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            position: relative;
+        }
+
+        .pricing-card.featured::after {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .plan-name {
+            font-size: 1.7rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .plan-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-light);
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-features li i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        .setup-time {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .setup-time i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .pricing-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .pricing-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Demo Section */
+        .demo {
+            background: var(--gradient-blue);
+            color: var(--secondary-white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.2;
+        }
+
+        .demo-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .demo h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .demo p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .demo-button {
+            display: inline-block;
+            background-color: var(--secondary-white);
+            color: var(--primary);
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .demo-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.5);
+            background-color: #f0f0f0;
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: var(--background-light);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .contact-info p {
+            margin-bottom: 30px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .contact-details {
+            margin-top: 30px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-detail i {
+            background: var(--gradient-blue);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .contact-detail div h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .contact-detail div p {
+            margin: 0;
+            color: var(--text-light);
+        }
+
+        .contact-form {
+            background-color: var(--secondary-white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .submit-button {
+            background: var(--gradient-blue);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient-dark);
+            color: var(--secondary-white);
+            padding: 70px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+            bottom: -8px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #CCCCCC;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a i {
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999999;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+            
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .contact-number {
+                display: none;
+            }
+            
+            .hero {
+                padding: 150px 0 100px;
+            }
+            
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-item {
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 130px 0 80px;
+            }
+            
+            section {
+                padding: 70px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .service-card, .pricing-card {
+                padding: 30px 20px;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+        <div class="loader-logo">Hogay<span>AI</span></div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo"><i class="fas fa-robot"></i>Hogay<span>AI</span></a>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div id="particles-js"></div>
+        <div class="container hero-content">
+            <h1>Automate Your Business. Save Time. Scale Fast.</h1>
+            <p>We help service-based businesses save hours every week through AI-powered automations — chatbots, follow-ups, and CRM systems.</p>
+            <a href="#demo" class="cta-button">Get Your Free Demo <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>What We Do</h2>
+                <p>Transforming businesses with cutting-edge AI automation solutions</p>
+            </div>
+            <div class="about-content">
+                <p>HogayAI helps realtors, fitness coaches, salons, and local businesses streamline their daily operations with AI automations. We set up intelligent systems that respond to leads, follow up automatically, and close more sales — all without extra staff.</p>
+                <p>Our mission is to empower businesses with technology that works 24/7, allowing you to focus on what truly matters - growing your business and serving your customers.</p>
+            </div>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-text">Businesses Automated</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-text">Hours Saved Monthly</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-text">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+                <p>Comprehensive AI automation solutions tailored to your business needs</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-robot"></i></div>
+                    <h3>AI Chatbots</h3>
+                    <p>Custom chatbots that answer client questions 24/7, providing instant support and capturing leads even when you're offline.</p>
+                    <ul class="service-features">
+                        <li>24/7 Customer Support</li>
+                        <li>Lead Qualification</li>
+                        <li>Multi-language Support</li>
+                        <li>Seamless Integration</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-funnel-dollar"></i></div>
+                    <h3>Lead Capture Systems</h3>
+                    <p>Intelligent forms and automation for lead generation that integrate seamlessly with your existing workflows.</p>
+                    <ul class="service-features">
+                        <li>Smart Form Builders</li>
+                        <li>Lead Scoring</li>
+                        <li>CRM Integration</li>
+                        <li>Analytics Dashboard</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-sync-alt"></i></div>
+                    <h3>Follow-Up Automation</h3>
+                    <p>Automated replies, reminders, and nurturing sequences that keep your leads engaged and moving through your sales funnel.</p>
+                    <ul class="service-features">
+                        <li>Personalized Sequences</li>
+                        <li>Multi-channel Follow-ups</li>
+                        <li>Behavior-based Triggers</li>
+                        <li>Performance Analytics</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>CRM Integration</h3>
+                    <p>Organize and manage clients automatically with systems that sync across all your platforms and tools.</p>
+                    <ul class="service-features">
+                        <li>Centralized Customer Data</li>
+                        <li>Automated Data Entry</li>
+                        <li>Workflow Automation</li>
+                        <li>Real-time Sync</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Choose Your Plan</h2>
+                <p>Flexible pricing options to suit businesses of all sizes</p>
+            </div>
+            <div class="pricing-table">
+                <div class="pricing-card">
+                    <h3 class="plan-name">Starter</h3>
+                    <div class="plan-price">$99<span>/one-time</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 1 AI automation (chatbot or form)</li>
+                        <li><i class="fas fa-check"></i> Professional setup included</li>
+                        <li><i class="fas fa-check"></i> 1-week premium support</li>
+                        <li><i class="fas fa-check"></i> Basic analytics</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                    </ul>
+                    <div class="setup-time"><i class="far fa-clock"></i> Setup Time: 3 days</div>
+                    <a href="#contact" class="pricing-button">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3 class="plan-name">Growth</h3>
+                    <div class="plan-price">$299<span>/one-time</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 3 automations</li>
+                        <li><i class="fas fa-check"></i> Chatbot + CRM integration</li>
+                        <li><i class="fas fa-check"></i> Follow-up automation</li>
+                        <li><i class="fas fa-check"></i> 1-month premium support</li>
+                        <li><i class="fas fa-check"></i> Advanced analytics</li>
+                    </ul>
+                    <div class="setup-time"><i class="far fa-clock"></i> Setup Time: 7 days</div>
+                    <a href="#contact" class="pricing-button">Get Started</a>
+                </div>
+                <div class="pricing-card">
+                    <h3 class="plan-name">Pro</h3>
+                    <div class="plan-price">$499<span>/one-time</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Custom automations</li>
+                        <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                        <li><i class="fas fa-check"></i> 3-month premium support</li>
+                        <li><i class="fas fa-check"></i> Full CRM integration</li>
+                        <li><i class="fas fa-check"></i> Priority phone support</li>
+                    </ul>
+                    <div class="setup-time"><i class="far fa-clock"></i> Setup Time: 10 days</div>
+                    <a href="#contact" class="pricing-button">Get Started</a>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <p><em>All packages include a free consultation and demo before purchase. Custom enterprise solutions available.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <div class="container demo-content">
+            <h2>Try Before You Buy</h2>
+            <p>See how automation can transform your business. Schedule your free demo today and get a live walkthrough of how AI can handle your work.</p>
+            <a href="#contact" class="demo-button">Book My Demo <i class="fas fa-calendar-alt"></i></a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>Got questions? Reach out — we'll respond within 24 hours.</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Let's Talk About Your Business</h3>
+                    <p>We're here to help you automate your workflows and grow your business. Tell us about your needs and we'll create a custom solution for you.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+1 (647) 673-9123</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>contacthogayai@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Business Hours</h4>
+                                <p>Mon - Fri: 9am - 6pm EST</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="business">Business Type</label>
+                            <input type="text" id="business" class="form-control" placeholder="e.g., Real Estate, Fitness, Salon" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">How can we help you?</label>
+                            <textarea id="message" class="form-control" rows="5" placeholder="Tell us about your automation needs..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>HogayAI</h4>
+                    <p>Your work? Ho Gaya.</p>
+                    <p>Done-for-you AI automation services to save time, capture leads, and grow your business.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i> About</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="#pricing"><i class="fas fa-chevron-right"></i> Pricing</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> AI Chatbots</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Lead Capture</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Follow-Up Automation</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> CRM Integration</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Custom Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:+16476739123"><i class="fas fa-phone-alt"></i> +1 (647) 673-9123</a></li>
+                        <li><a href="mailto:contacthogayai@gmail.com"><i class="fas fa-envelope"></i> contacthogayai@gmail.com</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Toronto, Canada</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 HogayAI. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--accent);"></i> for your business growth</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            setTimeout(function() {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 1000);
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        });
+
+        // Scroll animations
+        function checkScroll() {
+            const sections = document.querySelectorAll('section');
+            const windowHeight = window.innerHeight;
+            
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < windowHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const business = document.getElementById('business').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && business && message) {
+                // In a real application, you would send this data to a server
+                alert('Thank you for your message, ' + name + '! We will get back to you within 24 hours.');
+                this.reset();
+            } else {
+                alert('Please fill in all fields before submitting.');
+            }
+        });
+
+        // Initialize Particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-widget" class="chatbot-widget">
+        <div class="chatbot-toggle" onclick="toggleChatbot()">
+            <svg class="chat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z" fill="currentColor"/>
+                <path d="M7 9H17V11H7V9ZM7 12H15V14H7V12Z" fill="currentColor"/>
+            </svg>
+            <span class="chatbot-badge">1</span>
+        </div>
+        <div class="chatbot-container" id="chatbot-container">
+            <div class="chatbot-header">
+                <div class="header-left">
+                    <div class="chatbot-avatar">
+                        <div class="avatar-ring">
+                            <div class="avatar-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbot-info">
+                        <h4>HogayAi Assistant</h4>
+                        <p><span class="status-dot"></span>Online • Usually replies instantly</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" title="Minimize">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 19H18V17H6V19Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <button class="header-btn" onclick="toggleChatbot()" title="Close">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot-message">
+                    <div class="message-avatar">
+                        <div class="avatar-ring">
+                            <div class="avatar-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-content">
+                        <p>Hi! I'm your HogayAi assistant. How can I help you automate your business today?</p>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            </div>
+            <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                <div class="message bot-message">
+                    <div class="message-avatar">
+                        <div class="avatar-ring">
+                            <div class="avatar-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-content typing-content">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input-container">
+                <div class="input-wrapper">
+                    <input type="text" id="chatbot-input" placeholder="Type your message..." onkeypress="handleChatbotKeypress(event)">
+                    <button class="chatbot-send" onclick="sendMessage()" title="Send message">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Professional Chatbot Widget Styles */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .chatbot-toggle {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(0, 123, 255, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: 3px solid white;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 123, 255, 0.5);
+        }
+
+        .chat-icon {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+
+        .chatbot-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #FF4757;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .chatbot-container {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 360px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .chatbot-container.active {
+            display: flex;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chatbot-avatar {
+            position: relative;
+        }
+
+        .avatar-ring {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .avatar-ring::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00FF9D, #00C6FF);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+            color: white;
+        }
+
+        .avatar-placeholder svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .chatbot-info h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .chatbot-info p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00FF9D;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .header-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: #f8fafc;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 85%;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            position: relative;
+        }
+
+        .message-avatar .avatar-ring {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .user-message .message-avatar .avatar-ring {
+            border-color: #007BFF;
+        }
+
+        .message-avatar .avatar-placeholder {
+            background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+        }
+
+        .user-message .message-avatar .avatar-placeholder {
+            background: linear-gradient(135deg, #00FF9D 0%, #00C6FF 100%);
+        }
+
+        .message-avatar .avatar-placeholder svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .message-content {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            max-width: 280px;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+            color: white;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 2px 12px rgba(0, 123, 255, 0.2);
+        }
+
+        .message-content p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        .user-message .message-time {
+            text-align: left;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .typing-indicator {
+            padding: 0 20px 10px;
+        }
+
+        .typing-content {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: 0s; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        .chatbot-input-container {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 6px 6px 6px 16px;
+            border: 1px solid #e2e8f0;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #007BFF;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        #chatbot-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px 0;
+            font-size: 14px;
+            outline: none;
+            color: #1e293b;
+            font-weight: 400;
+        }
+
+        #chatbot-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .chatbot-send {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .chatbot-send:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+        }
+
+        .chatbot-send:active {
+            transform: scale(0.95);
+        }
+
+        .chatbot-send svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .chatbot-widget {
+                bottom: 16px;
+                right: 16px;
+            }
+
+            .chatbot-toggle {
+                width: 56px;
+                height: 56px;
+            }
+
+            .chat-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            .chatbot-container {
+                width: calc(100vw - 32px);
+                height: calc(100vh - 120px);
+                max-height: 500px;
+                right: -16px;
+                bottom: 80px;
+            }
+
+            .chatbot-messages {
+                padding: 16px;
+            }
+
+            .chatbot-input-container {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-widget {
+                bottom: 12px;
+                right: 12px;
+            }
+
+            .chatbot-container {
+                width: calc(100vw - 24px);
+                right: -12px;
+                height: calc(100vh - 100px);
+                max-height: 450px;
+            }
+
+            .chatbot-header {
+                padding: 16px;
+            }
+
+            .chatbot-messages {
+                padding: 12px;
+                gap: 12px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .message-content {
+                padding: 10px 14px;
+                max-width: 240px;
+            }
+
+            .message-content p {
+                font-size: 13px;
+            }
+
+            .chatbot-input-container {
+                padding: 12px;
+            }
+
+            .input-wrapper {
+                padding: 4px;
+            }
+
+            #chatbot-input {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .chatbot-container {
+                width: calc(100vw - 16px);
+                right: -8px;
+            }
+        }
+    </style>
+
+    <script>
+        // Chatbot functionality
+        let chatbotOpen = false;
+        let isTyping = false;
+        const botResponses = [
+            "Great question! Our AI automation services can save you hours every week. Would you like to know more about our pricing?",
+            "We specialize in chatbots, lead capture, follow-up automation, and CRM integration. Which service interests you most?",
+            "Our team can set up your automation in just 3-10 days depending on the package. Would you like to schedule a free demo?",
+            "Perfect! I can connect you with our team for a personalized consultation. What's your business type?",
+            "That's exactly what we help with! Our AI solutions are designed for businesses like yours. Let me get you in touch with our experts.",
+            "I'd be happy to help you get started! Our Starter package at $99 includes 1 AI automation with complete setup. Would you like to learn more?",
+            "For growing businesses, our Growth package at $299 includes up to 3 automations with CRM integration. It's our most popular choice!",
+            "Our Pro package at $499 offers custom automations and advanced analytics. Perfect for businesses ready to scale with AI."
+        ];
+
+        // User avatar images
+        const userAvatars = [
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+            "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80"
+        ];
+
+        function toggleChatbot() {
+            const container = document.getElementById('chatbot-container');
+            chatbotOpen = !chatbotOpen;
+            
+            if (chatbotOpen) {
+                container.classList.add('active');
+                document.getElementById('chatbot-input').focus();
+                // Hide badge when opened
+                const badge = document.querySelector('.chatbot-badge');
+                badge.style.display = 'none';
+            } else {
+                container.classList.remove('active');
+            }
+        }
+
+        function showTypingIndicator() {
+            if (isTyping) return;
+            isTyping = true;
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'block';
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            isTyping = false;
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            
+            if (message && !isTyping) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate bot response with typing delay
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+                    addMessage(randomResponse, 'bot');
+                }, 1500 + Math.random() * 1000); // Random delay between 1.5-2.5 seconds
+            }
+        }
+
+        function handleChatbotKeypress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Get random avatar for user messages
+            const avatarSrc = sender === 'user' ? 
+                userAvatars[Math.floor(Math.random() * userAvatars.length)] : 
+                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80";
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <div class="avatar-ring">
+                        <div class="avatar-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p>${text}</p>
+                    <div class="message-time">${timeString}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Auto-open chatbot after 5 seconds
+        setTimeout(() => {
+            if (!chatbotOpen) {
+                const badge = document.querySelector('.chatbot-badge');
+                badge.style.animation = 'pulse 1s infinite';
+            }
+        }, 5000);
+
+        // Close chatbot when clicking outside
+        document.addEventListener('click', function(event) {
+            const chatbotWidget = document.getElementById('chatbot-widget');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            
+            if (chatbotOpen && !chatbotWidget.contains(event.target)) {
+                toggleChatbot();
+            }
+        });
+
+        // Prevent chatbot from closing when clicking inside
+        document.getElementById('chatbot-container').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    </script>
+</body>
+</html>
