@@ -1908,6 +1908,7 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            outline: none;
         }
 
         .chatbot-send:hover {
@@ -1917,6 +1918,11 @@
 
         .chatbot-send:active {
             transform: scale(0.95);
+        }
+
+        .chatbot-send:focus {
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
         }
 
         .chatbot-send svg {
@@ -2484,10 +2490,8 @@
                 addMessage(message, 'user');
                 input.value = '';
                 
-                // Keep keyboard open on mobile
-                setTimeout(() => {
-                    input.focus();
-                }, 100);
+                // Keep keyboard open continuously - no blinking
+                input.focus();
                 
                 // Show typing indicator
                 showTypingIndicator();
@@ -2538,12 +2542,19 @@
             `;
             
             messagesContainer.appendChild(messageDiv);
-            scrollToBottom();
+            
+            // Auto scroll to latest message smoothly
+            setTimeout(() => {
+                scrollToBottom();
+            }, 50);
         }
 
         function scrollToBottom() {
             const messagesContainer = document.getElementById('chatbot-messages');
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            messagesContainer.scrollTo({
+                top: messagesContainer.scrollHeight,
+                behavior: 'smooth'
+            });
         }
 
         // Auto-open chatbot after 5 seconds
