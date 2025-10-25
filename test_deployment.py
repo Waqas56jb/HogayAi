@@ -14,7 +14,7 @@ RENDER_URL = "https://hogayai.onrender.com"
 def test_health():
     """Test health endpoint"""
     try:
-        response = requests.get(f"{RENDER_URL}/health", timeout=10)
+        response = requests.get(f"{RENDER_URL}/api/health", timeout=10)
         print(f"Health Check: {response.status_code}")
         print(f"Response: {response.json()}")
         return True
