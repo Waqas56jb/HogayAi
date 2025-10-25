@@ -1328,7 +1328,7 @@
         window.addEventListener('load', checkScroll);
 
         // Form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Simple form validation
@@ -1338,9 +1338,33 @@
             const message = document.getElementById('message').value;
             
             if (name && email && business && message) {
-                // In a real application, you would send this data to a server
-                alert('Thank you for your message, ' + name + '! We will get back to you within 24 hours.');
-                this.reset();
+                try {
+                    const response = await fetch(`${API_BASE_URL}/contact`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            business: business,
+                            message: message
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    alert(data.message);
+                    this.reset();
+                    
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    alert('Thank you for your message, ' + name + '! We will get back to you within 24 hours.');
+                    this.reset();
+                }
             } else {
                 alert('Please fill in all fields before submitting.');
             }
@@ -1537,18 +1561,18 @@
         }
 
         .chatbot-toggle {
-            width: 64px;
-            height: 64px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 8px 32px rgba(0, 123, 255, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 12px 40px rgba(0, 123, 255, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            border: 3px solid white;
+            border: 4px solid white;
         }
 
         .chatbot-toggle:hover {
@@ -1557,8 +1581,8 @@
         }
 
         .chat-icon {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             color: white;
         }
 
@@ -1591,19 +1615,20 @@
             position: absolute;
             bottom: 0;
             right: 0;
-            width: 320px;
-            height: 400px;
+            width: 400px;
+            height: 520px;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border-radius: 28px;
+            box-shadow: 0 32px 100px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             display: none;
             flex-direction: column;
             overflow: hidden;
             border: 1px solid rgba(0, 0, 0, 0.08);
             margin-right: 10px;
             transform: translateY(100%);
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 9999;
+            backdrop-filter: blur(10px);
         }
 
         .chatbot-container.active {
@@ -1613,12 +1638,13 @@
 
         .chatbot-header {
             background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
-            padding: 20px;
+            padding: 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             color: white;
             position: relative;
+            border-radius: 28px 28px 0 0;
         }
 
         .header-left {
@@ -1728,12 +1754,31 @@
 
         .chatbot-messages {
             flex: 1;
-            padding: 20px;
+            padding: 28px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            background: #f8fafc;
+            gap: 24px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            scroll-behavior: smooth;
+            position: relative;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: rgba(0, 123, 255, 0.2);
+            border-radius: 3px;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 123, 255, 0.3);
         }
 
         .message {
@@ -1781,12 +1826,25 @@
 
         .message-content {
             background: white;
-            padding: 12px 16px;
-            border-radius: 18px;
-            border-bottom-left-radius: 6px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 18px 22px;
+            border-radius: 22px;
+            border-bottom-left-radius: 8px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1);
             position: relative;
-            max-width: 280px;
+            max-width: 340px;
+            line-height: 1.6;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .user-message .message-content {
@@ -1799,9 +1857,12 @@
 
         .message-content p {
             margin: 0;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 15px;
+            line-height: 1.7;
             font-weight: 400;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         .message-time {
@@ -1852,20 +1913,32 @@
         }
 
         .chatbot-input-container {
-            padding: 20px;
+            padding: 28px;
             border-top: 1px solid #e2e8f0;
             background: white;
+            border-radius: 0 0 28px 28px;
+            position: relative;
+        }
+        
+        .chatbot-input-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
         }
 
         .input-wrapper {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             align-items: center;
             background: #f8fafc;
-            border-radius: 24px;
-            padding: 6px 6px 6px 16px;
-            border: 1px solid #e2e8f0;
-            transition: border-color 0.2s ease;
+            border-radius: 28px;
+            padding: 8px 8px 8px 20px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
         }
 
         .input-wrapper:focus-within {
@@ -1877,11 +1950,12 @@
             flex: 1;
             border: none;
             background: transparent;
-            padding: 10px 0;
-            font-size: 14px;
+            padding: 12px 0;
+            font-size: 15px;
             outline: none;
             color: #1e293b;
             font-weight: 400;
+            line-height: 1.5;
         }
 
         #chatbot-input::placeholder {
@@ -1889,8 +1963,8 @@
         }
 
         .chatbot-send {
-            width: 36px;
-            height: 36px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, #007BFF 0%, #0056CC 100%);
             border: none;
             border-radius: 50%;
@@ -1899,8 +1973,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -1926,8 +2000,8 @@
         }
 
         .chatbot-send svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
         }
 
         /* Comprehensive Responsive Design for All Devices */
@@ -2434,16 +2508,8 @@
         // Chatbot functionality
         let chatbotOpen = false;
         let isTyping = false;
-        const botResponses = [
-            "Great question! Our AI automation services can save you hours every week. Would you like to know more about our pricing?",
-            "We specialize in chatbots, lead capture, follow-up automation, and CRM integration. Which service interests you most?",
-            "Our team can set up your automation in just 3-10 days depending on the package. Would you like to schedule a free demo?",
-            "Perfect! I can connect you with our team for a personalized consultation. What's your business type?",
-            "That's exactly what we help with! Our AI solutions are designed for businesses like yours. Let me get you in touch with our experts.",
-            "I'd be happy to help you get started! Our Starter package at $99 includes 1 AI automation with complete setup. Would you like to learn more?",
-            "For growing businesses, our Growth package at $299 includes up to 3 automations with CRM integration. It's our most popular choice!",
-            "Our Pro package at $499 offers custom automations and advanced analytics. Perfect for businesses ready to scale with AI."
-        ];
+        let conversationHistory = [];
+        const API_BASE_URL = ''; // Same domain as the HTML file
 
         // User avatar images
         const userAvatars = [
@@ -2482,26 +2548,77 @@
             typingIndicator.style.display = 'none';
         }
 
-        function sendMessage() {
+        async function sendMessage() {
             const input = document.getElementById('chatbot-input');
             const message = input.value.trim();
             
-            if (message && !isTyping) {
-                addMessage(message, 'user');
-                input.value = '';
+            if (!message || isTyping) {
+                return;
+            }
+            
+            // Clear input immediately
+            input.value = '';
+            
+            // Add user message to conversation history
+            conversationHistory.push({
+                role: 'user',
+                content: message
+            });
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            
+            // Keep keyboard open continuously - no blinking
+            input.focus();
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            try {
+                // Send message to FastAPI backend
+                const response = await fetch(`${API_BASE_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversation_history: conversationHistory
+                    })
+                });
                 
-                // Keep keyboard open continuously - no blinking
-                input.focus();
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
-                // Show typing indicator
-                showTypingIndicator();
+                const data = await response.json();
                 
-                // Simulate bot response with typing delay
-                setTimeout(() => {
-                    hideTypingIndicator();
-                    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
-                    addMessage(randomResponse, 'bot');
-                }, 1500 + Math.random() * 1000); // Random delay between 1.5-2.5 seconds
+                // Hide typing indicator
+                hideTypingIndicator();
+                
+                // Check if we have a valid response
+                if (data.response && data.response.trim() !== '') {
+                    // Add bot response to conversation history
+                    conversationHistory.push({
+                        role: 'assistant',
+                        content: data.response
+                    });
+                    
+                    // Add bot message to chat instantly
+                    addMessage(data.response, 'bot');
+                } else {
+                    // Handle empty response
+                    const fallbackResponse = "I'm here to help! Could you please rephrase your question?";
+                    addMessage(fallbackResponse, 'bot');
+                }
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                hideTypingIndicator();
+                
+                // Fallback response if API fails
+                const fallbackResponse = "I'm sorry, I'm having trouble connecting right now. Please try again in a moment or contact us directly at contacthogayai@gmail.com";
+                addMessage(fallbackResponse, 'bot');
             }
         }
 
@@ -2513,17 +2630,17 @@
         }
 
         function addMessage(text, sender) {
+            // Don't add empty messages
+            if (!text || text.trim() === '') {
+                return;
+            }
+            
             const messagesContainer = document.getElementById('chatbot-messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}-message`;
             
             const now = new Date();
             const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            // Get random avatar for user messages
-            const avatarSrc = sender === 'user' ? 
-                userAvatars[Math.floor(Math.random() * userAvatars.length)] : 
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80";
             
             messageDiv.innerHTML = `
                 <div class="message-avatar">
@@ -2543,18 +2660,77 @@
             
             messagesContainer.appendChild(messageDiv);
             
-            // Auto scroll to latest message smoothly
-            setTimeout(() => {
-                scrollToBottom();
-            }, 50);
+            // Auto scroll to latest message immediately
+            scrollToBottom();
+        }
+
+        function addMessageWithTyping(text, sender) {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <div class="avatar-ring">
+                        <div class="avatar-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p id="typing-text"></p>
+                    <div class="message-time">${timeString}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            
+            // Type out the message character by character with realistic typing
+            const typingElement = document.getElementById('typing-text');
+            let index = 0;
+            let currentLine = '';
+            
+            function typeNextChar() {
+                if (index < text.length) {
+                    const char = text.charAt(index);
+                    currentLine += char;
+                    typingElement.textContent = currentLine;
+                    
+                    // Add slight delay for punctuation
+                    let delay = 30;
+                    if (char === '.' || char === '!' || char === '?') {
+                        delay = 150; // Pause after sentences
+                    } else if (char === ',') {
+                        delay = 80; // Pause for commas
+                    } else if (char === '\n') {
+                        delay = 100; // Pause for line breaks
+                    } else if (char === ' ') {
+                        delay = 20; // Quick for spaces
+                    }
+                    
+                    index++;
+                    scrollToBottom();
+                    setTimeout(typeNextChar, delay);
+                }
+            }
+            
+            // Start typing after a short delay
+            setTimeout(typeNextChar, 300);
         }
 
         function scrollToBottom() {
             const messagesContainer = document.getElementById('chatbot-messages');
-            messagesContainer.scrollTo({
-                top: messagesContainer.scrollHeight,
-                behavior: 'smooth'
-            });
+            if (messagesContainer) {
+                // Use requestAnimationFrame for better performance
+                requestAnimationFrame(() => {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                });
+            }
         }
 
         // Auto-open chatbot after 5 seconds
