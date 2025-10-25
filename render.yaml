@@ -9,7 +9,7 @@ services:
     envVars:
       - key: GEMINI_API_KEY
         value: AIzaSyDmyLcPvuYdGCnYhVNpBewAnD3I1_GOkgw
-      - key: re_e2qM1LUj_Af9xovjYzp9s6vnPufghQWCS
+      - key: RESEND_API_KEY
         value: re_e2qM1LUj_Af9xovjYzp9s6vnPufghQWCS
       - key: ADMIN_EMAIL
         value: contacthogayai@gmail.com

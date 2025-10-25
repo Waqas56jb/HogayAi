@@ -1339,7 +1339,7 @@
             
             if (name && email && business && message) {
                 try {
-                    const response = await fetch(`${API_BASE_URL}/contact`, {
+                    const response = await fetch(`${API_BASE_URL}/api/send-email`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1347,7 +1347,7 @@
                         body: JSON.stringify({
                             name: name,
                             email: email,
-                            business: business,
+                            subject: `Contact from ${business}`,
                             message: message
                         })
                     });
@@ -1357,8 +1357,13 @@
                     }
                     
                     const data = await response.json();
-                    alert(data.message);
-                    this.reset();
+                    
+                    if (data.success) {
+                        alert('Thank you for your message, ' + name + '! We will get back to you within 24 hours.');
+                        this.reset();
+                    } else {
+                        alert('Sorry, there was an error sending your message. Please try again or contact us directly.');
+                    }
                     
                 } catch (error) {
                     console.error('Error submitting form:', error);
