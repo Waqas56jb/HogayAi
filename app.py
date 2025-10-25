@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import uvicorn
 from typing import Optional
 import json
+import resend
 
 # Load environment variables
 load_dotenv()
@@ -37,6 +38,16 @@ print(f"GEMINI_API_KEY loaded: {GEMINI_API_KEY[:10]}...")  # Debug log
 
 genai.configure(api_key=GEMINI_API_KEY)
 
+# Configure Resend API
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "contacthogayai@gmail.com")
+
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
+    print(f"RESEND_API_KEY loaded: {RESEND_API_KEY[:10]}...")  # Debug log
+else:
+    print("Warning: RESEND_API_KEY not found in environment variables")
+
 # Initialize the Gemini model (using gemini-2.0-flash for free tier)
 model = genai.GenerativeModel('gemini-2.0-flash')
 
@@ -51,6 +62,16 @@ class ChatResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str
+    message: str
+
+class EmailRequest(BaseModel):
+    name: str
+    email: str
+    subject: str
+    message: str
+
+class EmailResponse(BaseModel):
+    success: bool
     message: str
 
 # System prompt for the chatbot
@@ -204,10 +225,62 @@ async def chat_with_bot(chat_message: ChatMessage):
             detail=f"Error processing chat message: {str(e)}"
         )
 
+@app.post("/api/send-email", response_model=EmailResponse)
+async def send_email(email_request: EmailRequest):
+    """
+    Send email notification to admin when users submit contact form
+    """
+    try:
+        if not RESEND_API_KEY:
+            raise HTTPException(
+                status_code=500,
+                detail="Email service not configured"
+            )
+        
+        # Create HTML email content
+        html_content = f"""
+        <h2>New Contact Message from HogayAI Website</h2>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <p><strong>Name:</strong> {email_request.name}</p>
+            <p><strong>Email:</strong> {email_request.email}</p>
+            <p><strong>Subject:</strong> {email_request.subject}</p>
+            <p><strong>Message:</strong></p>
+            <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                {email_request.message.replace('\n', '<br>')}
+            </div>
+            <hr>
+            <p style="color: #666; font-size: 12px;">
+                This message was sent from the HogayAI website contact form.
+            </p>
+        </div>
+        """
+        
+        # Send email using Resend
+        email_response = resend.Emails.send({
+            "from": "HogayAI Website <noreply@hogayai.com>",
+            "to": [ADMIN_EMAIL],
+            "subject": f"New Contact Form Message from {email_request.name}",
+            "html": html_content,
+        })
+        
+        print(f"Email sent successfully: {email_response}")
+        
+        return EmailResponse(
+            success=True,
+            message="Email sent successfully"
+        )
+        
+    except Exception as e:
+        print(f"Error sending email: {str(e)}")
+        return EmailResponse(
+            success=False,
+            message=f"Failed to send email: {str(e)}"
+        )
+
 @app.post("/contact", response_model=dict)
 async def submit_contact_form(contact_data: dict):
     """
-    Handle contact form submissions
+    Handle contact form submissions (legacy endpoint)
     """
     try:
         # Here you would typically save to database or send email
