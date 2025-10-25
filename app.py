@@ -33,6 +33,8 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY not found in environment variables")
 
+print(f"GEMINI_API_KEY loaded: {GEMINI_API_KEY[:10]}...")  # Debug log
+
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Initialize the Gemini model (using gemini-2.0-flash for free tier)
@@ -85,7 +87,11 @@ Remember: Your goal is to help potential customers understand how HogayAI can so
 @app.get("/")
 async def root():
     """Serve the main HTML page"""
-    return FileResponse("index.html")
+    try:
+        return FileResponse("index.html")
+    except Exception as e:
+        print(f"Error serving index.html: {e}")
+        return {"error": "Could not serve the main page", "details": str(e)}
 
 @app.get("/api/health", response_model=HealthResponse)
 async def health_check():
@@ -95,6 +101,23 @@ async def health_check():
         message="HogayAI Chatbot API is running successfully!"
     )
 
+@app.get("/test-gemini")
+async def test_gemini():
+    """Test Gemini API connection"""
+    try:
+        test_response = model.generate_content("Hello, this is a test message.")
+        return {
+            "status": "success",
+            "message": "Gemini API is working!",
+            "test_response": test_response.text[:100] + "..."
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Gemini API error: {str(e)}",
+            "api_key_loaded": bool(GEMINI_API_KEY)
+        }
+
 @app.get("/health", response_model=HealthResponse)
 async def health_check_legacy():
     """Health check endpoint (legacy)"""
@@ -102,6 +125,11 @@ async def health_check_legacy():
         status="healthy",
         message="API is operational"
     )
+
+@app.get("/status")
+async def status():
+    """Simple status endpoint"""
+    return {"status": "ok", "message": "HogayAI Chatbot is running"}
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat_with_bot(chat_message: ChatMessage):
@@ -126,10 +154,13 @@ async def chat_with_bot(chat_message: ChatMessage):
         conversation_context += f"User: {chat_message.message}\n\nAssistant:"
         
         # Generate response using Gemini
-        response = model.generate_content(conversation_context)
-        
-        # Extract the response text and clean up formatting
-        bot_response = response.text.strip()
+        try:
+            response = model.generate_content(conversation_context)
+            bot_response = response.text.strip()
+            print(f"Gemini response: {bot_response[:50]}...")  # Debug log
+        except Exception as e:
+            print(f"Gemini API error: {str(e)}")  # Debug log
+            bot_response = "I'm experiencing technical difficulties. Please try again in a moment."
         
         # Clean up and format the response for better display
         if not bot_response or bot_response.strip() == "":
@@ -213,10 +244,12 @@ async def submit_contact_form(contact_data: dict):
         )
 
 if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 8000))
     uvicorn.run(
         "app:app",
         host="0.0.0.0",
-        port=8000,
-        reload=True,
+        port=port,
+        reload=False,  # Set to False for production
         log_level="info"
     )

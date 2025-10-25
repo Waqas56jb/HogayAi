@@ -2509,7 +2509,8 @@
         let chatbotOpen = false;
         let isTyping = false;
         let conversationHistory = [];
-        const API_BASE_URL = ''; // Same domain as the HTML file
+        // Use relative URL for production deployment
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : '';
 
         // User avatar images
         const userAvatars = [
