@@ -84,9 +84,9 @@ Company Information:
 - Our mission is to empower businesses with technology that works 24/7
 
 Pricing:
-- Starter: $99 (one-time) - 1 AI automation, professional setup, 1-week support
-- Growth: $299 (one-time) - Up to 3 automations, chatbot + CRM integration, 1-month support (Most Popular)
-- Pro: $499 (one-time) - Custom automations, analytics dashboard, 3-month support
+- Starter: $199 per month - Stay connected with your customers automatically. We maintain your chatbot, handle your follow-ups, and send you a monthly performance report — so your business runs on autopilot.
+- Growth: $299 per month - Get a smarter automation system that grows with your business. We optimize your lead flow, bookings, and customer reminders every month for better results — no tech headaches.
+- Pro: $499 per month (Includes Website) - Everything your business needs in one package. We build and manage your website, automate customer messages, and track your growth with monthly reports and full support.
 
 Contact:
 - Phone: +1 (647) 673-9123
