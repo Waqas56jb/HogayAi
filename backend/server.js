@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const OpenAI = require("openai");
@@ -24,6 +25,38 @@ if (!openaiApiKey) {
   process.exit(1);
 }
 const openai = new OpenAI({ apiKey: openaiApiKey });
+
+// Email config for demo/contact form
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_APP_PASSWORD = process.env.ADMIN_APP_PASSWORD;
+
+let mailerReady = false;
+let mailTransporter = null;
+
+if (!ADMIN_EMAIL || !ADMIN_APP_PASSWORD) {
+  console.warn(
+    "[WARN] ADMIN_EMAIL or ADMIN_APP_PASSWORD missing in .env - contact form emails will be disabled."
+  );
+} else {
+  mailTransporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: ADMIN_EMAIL,
+      pass: ADMIN_APP_PASSWORD
+    }
+  });
+
+  mailTransporter.verify(err => {
+    if (err) {
+      console.error("Nodemailer transport verify failed:", err.message || err);
+    } else {
+      mailerReady = true;
+      console.log("Nodemailer transport ready for", ADMIN_EMAIL);
+    }
+  });
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  SYSTEM PROMPT  —  Deep prompt engineering
@@ -182,6 +215,69 @@ app.post("/chat", async (req, res) => {
   } catch (err) {
     console.error("Error in /chat:", err);
     res.status(500).json({ status: "error", response: "Something went wrong. Please try again." });
+  }
+});
+
+// ── Contact / demo request endpoint ──
+app.post("/contact", async (req, res) => {
+  try {
+    if (!mailerReady || !mailTransporter) {
+      return res.status(503).json({
+        status: "error",
+        message: "Email service is not configured. Please try again later."
+      });
+    }
+
+    const { name, email, business, phone, message } = req.body || {};
+
+    if (!name || !email || !business || !message) {
+      return res.status(400).json({
+        status: "error",
+        message: "Missing required fields."
+      });
+    }
+
+    const subject = `New HogayAI demo request from ${name}`;
+
+    const plain = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Business type: ${business}`,
+      `Phone: ${phone || "N/A"}`,
+      "",
+      "Message:",
+      message
+    ].join("\n");
+
+    const html = `
+      <h2>New HogayAI Demo / Contact Request</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Business type:</strong> ${business}</p>
+      <p><strong>Phone:</strong> ${phone || "N/A"}</p>
+      <hr />
+      <p><strong>Message:</strong></p>
+      <p style="white-space: pre-line;">${message}</p>
+    `;
+
+    await mailTransporter.sendMail({
+      from: `"HogayAI Website" <${ADMIN_EMAIL}>`,
+      to: ADMIN_EMAIL,
+      subject,
+      text: plain,
+      html
+    });
+
+    return res.json({
+      status: "success",
+      message: "Demo request sent successfully."
+    });
+  } catch (err) {
+    console.error("Error in /contact:", err);
+    return res.status(500).json({
+      status: "error",
+      message: "Failed to send email. Please try again."
+    });
   }
 });
 

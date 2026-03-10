@@ -235,6 +235,8 @@ export default function App() {
   const [error, setError] = useState("");
   const [showQuickReplies, setShowQuickReplies] = useState(true);
   const [statsVisible, setStatsVisible] = useState(false);
+  const [contactSending, setContactSending] = useState(false);
+  const [contactError, setContactError] = useState("");
   const statsRef = useRef(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -274,10 +276,39 @@ export default function App() {
     };
   }, []);
 
-  const handleContactSubmit = e => {
+  const handleContactSubmit = async e => {
     e.preventDefault();
-    alert(`Thank you, ${e.target.name.value}! We'll reach out within 24 hours to schedule your free call.`);
-    e.target.reset();
+    if (contactSending) return;
+    setContactSending(true);
+    setContactError("");
+
+    const form = e.target;
+    const payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      business: form.business.value.trim(),
+      phone: form.phone.value.trim(),
+      message: form.message.value.trim()
+    };
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok || data.status !== "success") {
+        throw new Error(data?.message || `HTTP ${res.status}`);
+      }
+      alert(`Thank you, ${payload.name}! Your details have been sent. We'll reach out within 24 hours to schedule your free call.`);
+      form.reset();
+    } catch (err) {
+      console.error("Contact form error:", err);
+      setContactError("Unable to send right now. Please try again, or email contacthogayai@gmail.com.");
+    } finally {
+      setContactSending(false);
+    }
   };
 
   // Auto-scroll to latest message
@@ -755,8 +786,11 @@ export default function App() {
                     <label htmlFor="message">What would you like to automate?</label>
                     <textarea id="message" name="message" className="form-control" rows="4" placeholder="Tell us what's taking up too much time — lead follow-ups, bookings, CRM updates, reminders..." required />
                   </div>
-                  <button type="submit" className="btn-primary btn-full">
-                    Send Message &amp; Book Call <FiArrowRight />
+                  {contactError && (
+                    <p className="form-error">{contactError}</p>
+                  )}
+                  <button type="submit" className="btn-primary btn-full" disabled={contactSending}>
+                    {contactSending ? "Sending..." : "Send Message & Book Call"} <FiArrowRight />
                   </button>
                 </form>
               </div>

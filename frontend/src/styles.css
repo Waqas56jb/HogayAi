@@ -907,6 +907,11 @@ header {
 .form-control:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(167,139,250,.12); background: var(--bg); }
 .form-control::placeholder { color: var(--gray-400); }
 textarea.form-control { resize: vertical; min-height: 112px; }
+.form-error {
+  font-size: .8rem;
+  color: #dc2626;
+  margin-bottom: 8px;
+}
 
 /* ── FOOTER ── */
 footer {
