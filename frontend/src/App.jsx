@@ -6,7 +6,9 @@ import {
 import { FaChevronDown } from "react-icons/fa";
 
 const API_BASE_URL =
-  window.location.hostname === "localhost" ? "http://localhost:8000" : "";
+  window.location.hostname === "localhost"
+    ? "http://localhost:8000"
+    : "https://hogay-ai-air7.vercel.app";
 const LOGO_URL = "https://cdn-icons-png.flaticon.com/512/4712/4712109.png";
 
 function useCountUp(end, duration = 2000, start = false) {
